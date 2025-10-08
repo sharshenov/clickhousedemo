@@ -10,6 +10,14 @@ dev: &dev
   host: <%= ENV.fetch('DB_HOSTNAME', 'localhost') %>
   port: <%= ENV.fetch('DB_PORT', 5432) %>
 
+clickhouse: &clickhouse
+  migrations_paths: db/clickhouse_migrate
+  adapter: clickhouse
+  host: <%= ENV.fetch("CLICKHOUSE_HOST", "localhost") %>
+  port: <%= ENV.fetch("CLICKHOUSE_PORT", 8123).to_i %>
+  username: <%= ENV.fetch("CLICKHOUSE_USER", "default") %>
+  password: <%= ENV.fetch("CLICKHOUSE_PASSWORD", "clickhouse") %>
+
 development:
   primary:
     <<: *dev
@@ -18,6 +26,9 @@ development:
     <<: *dev
     migrations_paths: db/queue_migrate
     database: clickhouse_demo_queue_development
+  clickhouse:
+    <<: *clickhouse
+    database: demo_development
 
 test:
   <<: *dev
@@ -39,3 +50,6 @@ production:
     <<: *default
     migrations_paths: db/cable_migrate
     url: <%= ENV["CABLE_DATABASE_URL"] %>
+  clickhouse:
+    <<: *clickhouse
+    database: demo

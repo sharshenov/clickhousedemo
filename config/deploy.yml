@@ -34,6 +34,8 @@ builder:
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 #
 env:
+  clear:
+    CLICKHOUSE_HOST: 172.17.0.1
   secret:
     - CABLE_DATABASE_URL
     - CACHE_DATABASE_URL
@@ -74,21 +76,22 @@ asset_path: /rails/public/assets
 
 # Use accessory services (secrets come from .kamal/secrets).
 #
-# accessories:
-#   db:
-#     image: mysql:8.0
-#     host: 192.168.0.2
-#     port: 3306
-#     env:
-#       clear:
-#         MYSQL_ROOT_HOST: '%'
-#       secret:
-#         - MYSQL_ROOT_PASSWORD
-#     files:
-#       - config/mysql/production.cnf:/etc/mysql/my.cnf
-#       - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
-#     directories:
-#       - data:/var/lib/mysql
+accessories:
+  clickhouse:
+    image: clickhouse/clickhouse-server:25.9
+    host: clickhousedemo.dev.kg
+    options:
+      ulimit: nofile=262144:262144
+    port:
+      - "172.17.0.1:8123:8123"
+      - "172.17.0.1:9000:9000"
+    env:
+      secret:
+        - CLICKHOUSE_PASSWORD
+    directories:
+      - clickhouse_data:/var/lib/clickhouse/
+      - clickhouse_logs:/var/log/clickhouse-server/
+
 #   redis:
 #     image: valkey/valkey:8
 #     host: 192.168.0.2

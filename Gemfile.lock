@@ -83,6 +83,9 @@ GEM
     brakeman (7.1.0)
       racc
     builder (3.3.0)
+    clickhouse-activerecord (1.4.0)
+      activerecord (>= 7.1, < 9.0)
+      bundler (>= 1.13.4)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.4)
     crass (1.0.6)
@@ -343,6 +346,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   brakeman
+  clickhouse-activerecord
   debug
   importmap-rails
   jbuilder

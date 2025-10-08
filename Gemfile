@@ -14,6 +14,8 @@ gem "solid_cache"
 gem "solid_queue"
 gem "solid_cable"
 
+gem "clickhouse-activerecord"
+
 gem "bootsnap", require: false
 
 gem "kamal", "~> 2.7.0", require: false
